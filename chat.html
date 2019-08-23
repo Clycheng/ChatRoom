@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #message{
+            width: 100%;
+            height: 500px;
+            border: 1px solid black;
+            overflow:scroll;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id = "msg" name="" id="">
+    <button id = "btn">btn按钮</button>
+    <div id = "message"></div> <div id="hiddenDiv" ></div> 
+    <script>
+        window.onload = function(e){
+            var sid = JSON.parse(localStorage.getItem('sid'))
+        var ws = new WebSocket('ws://localhost:1080?name='+sid.intname+'&user='+sid.username)
+        var btn = document.getElementById("btn")
+        var messageBox = document.getElementById('message')
+        ws.onopen = (res)=>{
+            console.log(res)
+        }    
+        btn.onclick = function(){
+            var message = document.getElementById('msg').value
+            document.getElementById('msg').value  = '';
+            ws.send(message)
+        }
+        ws.onmessage = (res)=>{
+            let newDiv = document.createElement('div')
+            newDiv.style.width = '100%'
+            newDiv.innerHTML = res.data;
+            newDiv.style.height  = "20px"
+            messageBox.appendChild(newDiv) 
+            messageBox.scrollTop=500
+
+        }
+        }
+      
+    </script>
+</body>
+</html>

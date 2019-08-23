@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
+</head>
+<body>
+    <input type="text" id = "username"> 
+    <button id = "btn">登录</button>
+  
+    <script>
+        var btn = document.getElementById("btn")
+        var socket = function(res){
+            let ws = new WebSocket('ws://47.98.213.151:1080?name='+res)
+            console.log(res)
+            ws.onopen = function(res){
+                console.log(`链接成功的返回消息：${res}`)
+            }
+            ws.onmessage = function(res){
+                console.log(res)
+            }
+            ws.onclose = function(){
+                alert("连接关闭")
+            }
+        }
+        btn.onclick = function(){
+            var username = document.getElementById("username").value
+            $.ajax({
+                url:"http://47.98.213.151:8090/ver?name="+username,
+                method:"get",
+                dataType:"json",
+                success:(res)=>{
+                    // socket(res.intname)
+                    localStorage.setItem('sid',JSON.stringify(res))
+                    location.href = "./chat.html?name="+res.intname
+                }
+            })
+        }
+            
+    </script>
+</body>
+</html>
