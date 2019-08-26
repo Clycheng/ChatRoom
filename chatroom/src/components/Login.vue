@@ -54,10 +54,25 @@ export default {
     addClass:function(res){
      this.isactive = res
     },
+    routeLink(res){
+        console.log(res)
+        for (let item in res){
+          sessionStorage.setItem(item,res[item])
+        }
+        this.$router.push({
+          path:'/Index'
+        })
+    },
     login(){
       // console.log(this.adminName)
-      this.axios.get('http:/47.98.213.151:8080/ver?name='+this.adminName).then((res)=>{
-        console.log(res)
+      this.axios.get('http://47.98.213.151:8090/ver?name='+this.adminName).then((res)=>{
+        // console.log(res.data)
+        if(res.status == 200&& res.data.username == this.adminName){
+           this.routeLink(res.data)
+        }else{
+          alert("用户名错误")
+        }
+       
       })
     }
   },

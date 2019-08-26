@@ -11,13 +11,14 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/ver': {
-      //   target: 'http:/47.98.213.151:8080/ver',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/ver': '/ver'
-      //   }
-      // }
+      '/api': {
+        target:'http:/47.98.213.151:8090',
+        // secure: false, // 如果是https接口，需要配置这个参数
+        changeOrigin: true,
+        pathRewrite:{
+          '^/api': 'api'
+        }
+      }
     },
 
     // Various Dev Server settings
