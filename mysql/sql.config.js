@@ -35,9 +35,17 @@ connection.query(addSql,addSqlParams,function (err, result) {
    console.log('-----------------------------------------------------------------\n\n');  
 });
 }
-
+// 查询分组
+const qClass = (callback)=>{
+    var sql = 'SELECT * FROM GCLASS '
+    connection.query(sql, function (error, results, fields) {
+        if (error) throw error;
+        callback(results);
+        // callback(results)
+    });
+}
 module.exports = {
-    query,inset
+    query,inset,qClass
 }
 
 

@@ -13,8 +13,9 @@ app.all('*',function (req, res, next) {
       next();
     }
   });
-
+// 验证用户名
 app.get('/ver',(req,res)=>{
+
     var username = req.query.name
 
     sql.query((results)=>{
@@ -28,7 +29,24 @@ app.get('/ver',(req,res)=>{
       }
     })
 })
-
+// 查询分组信息
+app.get('/qClass',(req,res)=>{
+    let resData = req.query
+    resData = resData.id.split(',')
+    console.log(resData)
+    sql.qClass((result)=>{
+      let arr = [];
+      for (let i = 0; i <result.length; i++){
+        for(let z = 0; z < resData.length; z ++){
+          if(result[i].id == resData[z]){
+            arr.push(result[i])
+          }
+        }
+      }
+      console.log(arr)
+      res.send(arr)
+   }) 
+})
 app.listen(8090,function(){
     console.log("运行在8090端口")
 })
