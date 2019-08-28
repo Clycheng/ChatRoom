@@ -25,8 +25,17 @@
         </div>
       </el-aside>
       <el-container>
-        <el-header>标题</el-header>
-        <el-main>聊天内容</el-main>
+        <el-header>{{this.$store.state.headTitle}}</el-header>
+        <el-main><ul id = "chatList-warp">
+          <li  class = "chatList" v-for="(item,index) in chatList" :key="index" :class ="{ownactive:item.own == true}">
+            <div>
+              <img :src="item.img" alt="">
+            <i>{{item.name}}</i>
+            <p>{{item.message}}</p>
+            </div>
+            
+          </li>
+        </ul>　<div class="clearfloat"></div></el-main>
         <el-footer>输入框</el-footer>
       </el-container>
     </el-container>
@@ -41,6 +50,26 @@ export default {
     return {
       headImg: "",
       isActive:1,
+      chatList:[
+        {
+          img:'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=571610305,1553276443&fm=26&gp=0.jpg',
+          name:'苏峰',
+          own:false,
+          message:'我是苏峰我是苏峰我是苏峰我是苏峰我是苏峰我是苏峰我是苏峰我是苏峰我是苏峰我是苏峰我是苏峰我是苏峰我是苏峰'
+        },
+         {
+          img:'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=571610305,1553276443&fm=26&gp=0.jpg',
+          name:'高露',
+          own:false,
+          message:'我是高露我是高露我是高露我是高露我是高露我是高露我是高露我是高露我是高露我是高露我是高露我是高露我是高露我是高露我是高露我是高露'
+        },
+          {
+          img:'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1367423687,185986171&fm=26&gp=0.jpg',
+          name:'程晓磊',
+          own:true,
+          message:'我是管理员我是管理员我是管理员我是管理员我是管理员我是管理员我是管理员我是管理员我是管理员我是管理员我是管理员我是管理员我是管理员我是管理员'
+        }
+      ]
     };
   },
   components:{
@@ -60,10 +89,18 @@ export default {
 <style scoped>
 .el-header,
 .el-footer {
-  background-color: #b3c0d1;
+  background-color: #f5f5f5;
   color: #333;
   text-align: center;
   line-height: 60px;
+}
+.el-header {
+box-shadow: 2px 1px 5px #888888;
+z-index: 99
+}
+.el-footer {
+box-shadow: 2px -1px 5px #888888;
+z-index: 99
 }
 
 .el-aside {
@@ -75,10 +112,14 @@ export default {
   background-color: #eeeae8;
 }
 .el-main {
-  background-color: #e9eef3;
+  background-color: #f5f5f5;
   color: #333;
   text-align: center;
+  
   /* line-height: 160px; */
+}
+.el-main::-webkit-scrollbar{
+  display: none;
 }
 
 .el-container {
@@ -111,7 +152,7 @@ export default {
 .list ul li {
   margin-top: 15px;
   width: 100%;
-  height: 50px;
+  height: auto;
   line-height: 50px;
 }
 .list ul li i {
@@ -142,5 +183,55 @@ export default {
 }
 .per-list.active {
   display: block;
+}
+
+/* 聊天内容框 */
+#chatList-warp{
+  overflow: scroll;
+  height: 280px;
+}
+#chatList-warp::-webkit-scrollbar{
+  display: none;
+}
+#chatList-warp li{
+  float: left;
+width: 100%;
+height: auto;
+/* background: red; */
+margin-bottom: 10px;
+}
+#chatList-warp li img {
+  display: block;
+  float: left;
+  width:5%;
+  
+}
+#chatList-warp li i {
+  font-style: normal;
+  float: left;
+  margin-left: 10px;
+  font-size: 14px;
+  color:#bebebe
+}
+#chatList-warp li p {
+  padding-top: 25px;
+  width: 50%;
+  margin-left: 6%;
+  text-align: left;
+  /* float: left; */
+}
+#chatList-warp li.ownactive img{
+ float: right;
+}
+#chatList-warp li.ownactive i{
+  float: right;
+  margin-right: 14px;
+}
+#chatList-warp li.ownactive p{
+  padding-top: 25px;
+  float: right;
+  width: 50%;
+  margin-right: -6%;
+  text-align: right;
 }
 </style>

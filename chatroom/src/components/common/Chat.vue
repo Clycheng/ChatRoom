@@ -8,7 +8,7 @@
           </li>
       </ul>
        <ul v-if="chatCat == 2"  class = "list per-list">
-          <li   v-for = "(item,index) in perList" :key = "index" :class ="{active:index == isactive}"  @click="addactive(index)">
+          <li   v-for = "(item,index) in perList" :key = "index" :class ="{active:index == isActive}"  @click="addActive(index)">
               <div class ="head-pic-warp"><img :src = "item.headPic" alt=""></div>
               <div class = "head-name-warp"><i>{{item.intname}}</i></div>
           </li>
@@ -17,14 +17,13 @@
 </template>
 
 <script>
-import { constants } from 'crypto';
-import { type } from 'os';
 export default {
     name:"Chat",
     props:["chatCat"],
     data(){
         return{
             isactive:0,
+            isActive:0,
             groupList:[
 
             ],
@@ -32,9 +31,17 @@ export default {
         }
     },
     methods:{
+        // 单人
+        addActive(res){
+            console.log(res)
+            this.isActive = res
+            this.$store.state.headTitle = this.perList[this.isActive].intname
+        },
+        // 群聊天
         addactive(res){
             console.log(res)
             this.isactive = res
+            this.$store.state.headTitle = this.groupList[this.isactive].groupName
         }
     },
  computed:{
@@ -47,9 +54,11 @@ export default {
      }
  },
     mounted(){
+        
         let groupCat =  sessionStorage.getItem('groupCat')
         this.axios.get('http://47.98.213.151:8090/qClass?id='+groupCat).then(res=>{
             this.groupList = res.data
+            this.$store.state.headTitle = this.groupList[this.isactive].groupName
         })
         let perList = sessionStorage.getItem('firendGroup')
         // console.log(perList)
@@ -61,7 +70,8 @@ export default {
        this.perList.push(eval('(' + element + ')'))
     // console.log(eval('(' + element + ')'))
    });
-   console.log(this.perList)
+   
+
 
         // this.perList = sessionStorage.getItem('firendGroup').split("}")
         //     this.perList.forEach(element => {
