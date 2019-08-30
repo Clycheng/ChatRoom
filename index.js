@@ -48,7 +48,8 @@ app.get('/qClass',(req,res)=>{
    }) 
 })
 app.get('/classId',(req,res)=>{
-  let resData = req.query
+  let resData = req.query.id
+  console.log(resData)
   sql.qClass((result)=>{
     for (let i = 0; i <result.length; i++){
         if(result[i].id == resData){
