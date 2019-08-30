@@ -47,6 +47,19 @@ app.get('/qClass',(req,res)=>{
       res.send(arr)
    }) 
 })
+app.get('/classId',(req,res)=>{
+  let resData = req.query
+  sql.qClass((result)=>{
+    for (let i = 0; i <result.length; i++){
+        if(result[i].id == resData){
+          console.log(result[i].teamItem)
+          res.send(result[i].teamItem)
+        }
+      }
+    })
+   
+ }) 
+// })
 app.listen(8090,function(){
     console.log("运行在8090端口")
 })

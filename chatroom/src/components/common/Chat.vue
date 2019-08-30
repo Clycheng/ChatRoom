@@ -2,17 +2,17 @@
   <div>
       <header>{{chat}}</header>
       <ul v-if="chatCat == 1" class = "list group-list">
-          <li   v-for = "(item,index) in groupList" :key = "index" :class ="{active:index == isactive}"  @click="addactive(index)">
+          <li   v-for = "(item,index) in $store.state.groupList" :key = "index" :class ="{active:index == $store.state.isActive}"  @click="addactive(index)">
               <div class ="head-pic-warp"><img :src = "item.Gheadimg" alt=""></div>
               <div class = "head-name-warp"><i>{{item.groupName}}</i></div>
           </li>
       </ul>
-       <ul v-if="chatCat == 2"  class = "list per-list">
+       <!-- <ul v-if="chatCat == 2"  class = "list per-list">
           <li   v-for = "(item,index) in perList" :key = "index" :class ="{active:index == isActive}"  @click="addActive(index)">
               <div class ="head-pic-warp"><img :src = "item.headPic" alt=""></div>
               <div class = "head-name-warp"><i>{{item.intname}}</i></div>
           </li>
-      </ul>
+      </ul> -->
   </div>
 </template>
 
@@ -32,16 +32,14 @@ export default {
     },
     methods:{
         // 单人
-        addActive(res){
-            console.log(res)
-            this.isActive = res
-            this.$store.state.headTitle = this.perList[this.isActive].intname
-        },
+        // addActive(res){
+        //     this.isActive = res
+        //     this.$store.state.headTitle = this.perList[this.$store.state.isActive].intname
+        // },
         // 群聊天
         addactive(res){
-            console.log(res)
-            this.isactive = res
-            this.$store.state.headTitle = this.groupList[this.isactive].groupName
+            this.$store.state.isActive = res
+            this.$store.state.headTitle = this.$store.state.groupList[this.$store.state.isActive].groupName
         }
     },
  computed:{
@@ -57,19 +55,19 @@ export default {
         
         let groupCat =  sessionStorage.getItem('groupCat')
         this.axios.get('http://47.98.213.151:8090/qClass?id='+groupCat).then(res=>{
-            this.groupList = res.data
-            this.$store.state.headTitle = this.groupList[this.isactive].groupName
+            this.$store.state.groupList = res.data
+            this.$store.state.headTitle = this.$store.state.groupList[this.$store.state.isActive].groupName
         })
-        let perList = sessionStorage.getItem('firendGroup')
+        // let perList = sessionStorage.getItem('firendGroup')
         // console.log(perList)
-        perList = perList.split('},')
-        for (let index = 0; index < perList.length-1; index++) {
-            perList [index] += '}'
-        }
-   perList.forEach(element => {
-       this.perList.push(eval('(' + element + ')'))
-    // console.log(eval('(' + element + ')'))
-   });
+//         perList = perList.split('},')
+//         for (let index = 0; index < perList.length-1; index++) {
+//             perList [index] += '}'
+//         }
+    //    perList.forEach(element => {
+    //        this.perList.push(eval('(' + element + ')'))
+    //     // console.log(eval('(' + element + ')'))
+    //    });
    
 
 
